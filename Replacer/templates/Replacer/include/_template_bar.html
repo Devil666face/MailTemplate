@@ -1,0 +1,10 @@
+{% block template_bar %}
+<div class="container">
+    <div class="list-group">
+        {% for template in template_list %}
+        <a href="{{template.get_absolute_url}}"
+            class="list-group-item list-group-item-action {% if template.get_absolute_url == path %}active{% endif %}">{{template.title}}</a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
