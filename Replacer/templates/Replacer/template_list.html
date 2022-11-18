@@ -3,19 +3,38 @@
 {% block container %}
 <div class="container">
     <div class="row mb-5">
-        <div class="col-md-3 bg-light p-3 border rounded">
-            {% show_template_bar path %}
-        </div>
-        <div class="col-md-9 bg-light p-3 border rounded">
-            <form  method="post" enctype="multipart/form-data">
-                {% for form in form_list %}
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <button type="submit" class="btn btn-primary btn-dark mt-3 form-control">Сохранить поле</button>
-                {% endfor %}                   
-            </form>
-            
-        </div>
+        {% if template_list %}
+        <h1>Cписок шаблонов</h1>
+        <a class="btn btn-outline-primary" href="{% url 'tamplate_create' %}">Добавить шаблон</a>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Название</th>
+                    <th scope="col">Файл шаблона</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            {% for template in template_list %}
+            <tbody>
+                <tr>
+                    <th scope="row"><a class="btn btn-light" href="{% url 'template' template.pk %}">{{template.title}}</a></th>
+                    <td><a class="btn btn-outline-success" href="/media/{{template.file}}">{{template.file}}</a></td>
+                    <td><a class="btn btn-outline-info" href="{% url 'template_update' template.pk %}">Редактировать</a></td>
+                    <td><a class="btn btn-outline-danger" href="{% url 'template_delete' template.pk %}">Удалить</a></td>
+                </tr>
+            </tbody>
+            {% endfor %}
+        </table>
+        {% endif %}
+        {% if form %}
+        <h1>{{header}}</h1>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{form.as_p}}
+            <button type="submit" class="btn btn-primary btn-dark mb-3 form-control">{{text_button}}</button>
+        </form>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

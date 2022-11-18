@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+{% block container %}
+<div class="container">
+    <div class="row mb-5">
+        <div class="col-md-3 bg-light p-3 border rounded">
+            {% show_template_bar path %}
+        </div>
+        <div class="col-md-9 bg-light p-3 border rounded">
+            {% if pk and form_list %}
+            <form action="{% url 'create_document' pk %}" method="POST" enctype="multipart/form-data">
+                {% for form in form_list %}
+                {% csrf_token %}
+                {% forindex field_list forloop.counter0 as field %}
+                <div class="card mb-3 text-bg-dark">
+                    <div class="card-body">
+                        <h5 class="card-title">Поле: {{field.title}}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Тэг: {{field.tag}}</h6>
+                        <p class="card-text">{{ form.replace_value }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-primary btn-dark mb-3 form-control">Создать документ</button>
+            </form>
+            {% else %}
+            <div class="card mb-3 text-bg-dark">
+                <div class="card-body">
+                    <h5 class="card-title">Поля для замены не созданы</h5>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
