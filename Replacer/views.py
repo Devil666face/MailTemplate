@@ -1,14 +1,28 @@
 from django.shortcuts import render
 from django.views.generic import DetailView, ListView, FormView, UpdateView, CreateView, DeleteView, TemplateView
+from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.urls import reverse_lazy
 from .models import *
 from .forms import *
 
 
-class TemplateDetailView(DetailView):
+class UserLogout(LogoutView):
+    next_page = '/login/'
+
+
+class UserLogin(LoginView):
+    authentication_form = UserLoginForm
+    template_name = 'login.html'
+    redirect_authenticated_user = True
+    next_page = '/'
+
+
+class TemplateDetailView(LoginRequiredMixin, DetailView):
     model = Template
     template_name = 'Replacer/template_replace.html'
+    login_url = '/login/'
 
     def get_form_list(self, fields_list):
         return [ReplaceFieldFormUpdate(instance=field_obj) for field_obj in fields_list]
@@ -27,14 +41,16 @@ class TemplateDetailView(DetailView):
         return super().get(request, *args, **kwargs)
 
 
-class HomeView(ListView):
+class HomeView(LoginRequiredMixin, ListView):
     model = Template
     template_name = 'Replacer/template_replace.html'
+    login_url = '/login/'
 
 
-class CreateDocumentView(FormView):
+class CreateDocumentView(LoginRequiredMixin, FormView):
     form_class = ReplaceFieldFormUpdate
     template_name = 'Replacer/template_list.html'
+    login_url = '/login/'
 
     def post(self, request, *args, **kwargs):
         self.pk = kwargs.get('pk')
@@ -45,15 +61,22 @@ class CreateDocumentView(FormView):
 
 class TemplateBaseView:
     model = Template
-    template_name = 'Replacer/template_list.html'
+    template_name = 'form.html'
     success_url = reverse_lazy('template_list')
+    login_url = '/login/'
 
 
-class TemplateListView(TemplateBaseView, ListView):
+class TemplateListView(TemplateBaseView, LoginRequiredMixin, ListView):
     context_object_name = 'template_list'
+    template_name = 'Replacer/template_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = TemplateBaseForm()
+        return context
 
 
-class TemplateUpdateView(TemplateBaseView, UpdateView):
+class TemplateUpdateView(LoginRequiredMixin, TemplateBaseView, UpdateView):
     form_class = TemplateBaseForm
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -63,20 +86,14 @@ class TemplateUpdateView(TemplateBaseView, UpdateView):
         return context
 
 
-class TemplateCreateView(TemplateBaseView, CreateView):
+class TemplateCreateView(LoginRequiredMixin, TemplateBaseView, CreateView):
     form_class = TemplateBaseForm
 
+
+class TemplateDeleteView(LoginRequiredMixin, TemplateBaseView, DeleteView):
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['header'] = 'Создать шаблон'
-        context['text_button'] = f'Создать'
-        return context
-
-
-class TemplateDeleteView(TemplateBaseView, DeleteView):
-    
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['header'] = f'Вы действительно хотите удалить шаблон?'
+        context['header'] = f'<h3>Вы действительно хотите удалить шаблон</h3><h1>"{context["template"].title}"?</h1>'
         context['text_button'] = f'Удалить'
         return context

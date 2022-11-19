@@ -2,10 +2,15 @@
 {% load custom_filters %}
 {% block container %}
 <div class="container">
-    <div class="row mb-5">
+    <div class="row">
         {% if template_list %}
         <h1>Cписок шаблонов</h1>
+        {% comment %}
         <a class="btn btn-outline-primary" href="{% url 'tamplate_create' %}">Добавить шаблон</a>
+        {% endcomment %}
+        <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#createModal">
+            Добавить шаблон
+        </button>
         <table class="table">
             <thead>
                 <tr>
@@ -18,15 +23,19 @@
             {% for template in template_list %}
             <tbody>
                 <tr>
-                    <th scope="row"><a class="btn btn-light" href="{% url 'template' template.pk %}">{{template.title}}</a></th>
+                    <th scope="row"><a class="btn btn-light"
+                            href="{% url 'template' template.pk %}">{{template.title}}</a></th>
                     <td><a class="btn btn-outline-success" href="/media/{{template.file}}">{{template.file}}</a></td>
-                    <td><a class="btn btn-outline-info" href="{% url 'template_update' template.pk %}">Редактировать</a></td>
-                    <td><a class="btn btn-outline-danger" href="{% url 'template_delete' template.pk %}">Удалить</a></td>
+                    <td><a class="btn btn-outline-info" href="{% url 'template_update' template.pk %}">Редактировать</a>
+                    </td>
+                    <td><a class="btn btn-outline-danger" href="{% url 'template_delete' template.pk %}">Удалить</a>
+                    </td>
                 </tr>
             </tbody>
             {% endfor %}
         </table>
         {% endif %}
+        {% comment %}
         {% if form %}
         <h1>{{header}}</h1>
         <form method="POST" enctype="multipart/form-data">
@@ -35,6 +44,29 @@
             <button type="submit" class="btn btn-primary btn-dark mb-3 form-control">{{text_button}}</button>
         </form>
         {% endif %}
+        {% endcomment %}
     </div>
+
+    <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="createModalLabel">Создать шаблон</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{% url 'tamplate_create' %}" method="POST" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        {% csrf_token %}
+                        {{form.as_p}}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Закрыть</button>
+                        <button type="submit" class="btn btn-outline-primary">Создать</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 </div>
 {% endblock %}

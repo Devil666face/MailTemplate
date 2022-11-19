@@ -23,8 +23,8 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -106,4 +106,4 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 CSRF_COOKIE_DOMAIN = ['185.206.212.89','127.0.0.1']
 CSRF_TRUSTED_ORIGINS = ['http://185.206.212.89','http://127.0.0.1:8000','http://127.0.0.1']
-CSRF_COOKIE_SECURE = True
+CSRF_USE_SESSIONS = True

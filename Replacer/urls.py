@@ -4,6 +4,10 @@ from django.urls import path
 
 urlpatterns = [
     # CRUD for template
+    path('', HomeView.as_view(), name='home'),
+    path('login/', UserLogin.as_view(), name='login'),
+    path('logout/', UserLogout.as_view(), name='logout'),
+
     path('template/list/', TemplateListView.as_view(), name='template_list'),
     path('template/create/', TemplateCreateView.as_view(), name='tamplate_create'),
     path('template/<int:pk>/update/', TemplateUpdateView.as_view(), name='template_update'),
@@ -11,5 +15,4 @@ urlpatterns = [
 
     path('template/<int:pk>/', TemplateDetailView.as_view(), name='template'),
     path('create-document/<int:pk>', CreateDocumentView.as_view(), name='create_document'),
-    path('', HomeView.as_view(), name='home'),
 ]

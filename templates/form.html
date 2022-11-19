@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+{% block container %}
+<div class="container">
+    {% if form %}
+    <div class="row">
+        <form method="POST" enctype="multipart/form-data">
+            <h1>{{header|safe}}</h1>
+            {% csrf_token %}
+            {{form.as_p}}
+            <div class="row">
+                <div class="col">
+                    <a href="{% url 'template_list' %}" class="btn btn-outline-secondary form-control">Отменить</a>
+                </div>
+                <div class="col">
+                    <button type="submit" class="btn btn-outline-primary form-control">{{text_button}}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
