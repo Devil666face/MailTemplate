@@ -110,9 +110,8 @@ class FieldsForTemplateView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['fields_list'] = ReplaceField.objects.filter(template=self.pk).select_related('template')
-        # context['form'] = FieldsBaseForm(initial={'template':1})
-        context['form'] = FieldsBaseForm()
-        # print(Template.objects.get(pk=self.pk))
+        template = Template.objects.get(pk=self.pk)
+        context['form'] = FieldsBaseForm(initial={'template':template,})
         print(context['form']['template'].value())
         return context
 
@@ -125,7 +124,7 @@ class FieldsBaseView:
 
 class FieldsForTemplateCreateView(LoginRequiredMixin, FieldsBaseView, CreateView):
     form_class = FieldsBaseForm
-    # success_url = 
+
     def get_success_url(self) -> str:
         self.previos_template_pk = self.request.META.get('HTTP_REFERER').split('/')[-2]
         return reverse_lazy('fields_list',kwargs={'pk': self.previos_template_pk})

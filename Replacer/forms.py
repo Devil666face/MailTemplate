@@ -29,6 +29,12 @@ class FieldsBaseForm(BootstrapForm):
     class Meta:
         model = ReplaceField
         fields = '__all__'
+        widgets = {
+            'template':forms.Select(attrs = {"class":"form-control", "style":"display: none;"},),    
+        }
+        labels = {
+            'template': '',
+        }
 
 
 class ReplaceFieldFormUpdate(BootstrapForm):
