@@ -2,13 +2,13 @@
 {% load custom_filters %}
 {% block container %}
 <div class="container">
-    <div class="row">
-        <div class="col-md-3 bg-light p-3 border rounded">
+    <div class="row justify-content-between">
+        <div class="col-md-3 p-3 align-self-start border rounded bg-light mb-3">
             {% show_template_bar path %}
         </div>
         {% if pk %}
         {% if form_list %}
-        <div class="col-md-9 bg-light p-3 border rounded">
+        <div class="col-md-8 bg-light p-3 border rounded">
             <form action="{% url 'create_document' pk %}" method="POST" enctype="multipart/form-data">
                 {% for form in form_list %}
                 {% csrf_token %}
