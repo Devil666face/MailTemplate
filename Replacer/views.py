@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import DetailView, ListView, FormView, UpdateView, CreateView, DeleteView, TemplateView
+from django.views.generic import DetailView, ListView, FormView, UpdateView, CreateView, DeleteView
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
@@ -83,6 +83,7 @@ class TemplateUpdateView(LoginRequiredMixin, TemplateBaseView, UpdateView):
         context = super().get_context_data(**kwargs)
         context['header'] = 'Обновить шаблон'
         context['text_button'] = f'Обновить'
+        context['under_url'] = reverse_lazy('template_list')
         return context
 
 
@@ -96,6 +97,7 @@ class TemplateDeleteView(LoginRequiredMixin, TemplateBaseView, DeleteView):
         context = super().get_context_data(**kwargs)
         context['header'] = f'<h3>Вы действительно хотите удалить шаблон</h3><h1>"{context["template"].title}"?</h1>'
         context['text_button'] = f'Удалить'
+        context['under_url'] = reverse_lazy('template_list')
         return context
 
 
@@ -109,33 +111,57 @@ class FieldsForTemplateView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['fields_list'] = ReplaceField.objects.filter(template=self.pk).select_related('template')
+        context['fields_list'] = ReplaceField.objects.filter(
+            template=self.pk).select_related('template')
         template = Template.objects.get(pk=self.pk)
-        context['form'] = FieldsBaseForm(initial={'template':template,})
+        context['form'] = FieldsBaseForm(initial={'template': template, })
         print(context['form']['template'].value())
         return context
 
 
-class FieldsBaseView:
+class FieldsBaseView(FormView):
     model = ReplaceField
     template_name = 'form.html'
     login_url = '/login/'
+
+    def get_template_pk(self):
+        self.pk = self.request.META.get('HTTP_REFERER').split('/')[-2]
+        print(f'refer pk = {self.pk}')
+        return self.pk
+
+    def get_success_url(self) -> str:
+        return reverse_lazy('fields_list', kwargs={'pk': self.template_pk})
+
+    def post(self, request, *args, **kwargs) -> HttpResponse:
+        self.template_pk = ReplaceField.objects.get(
+            pk=kwargs['pk']).template.pk
+        return super().post(request, *args, **kwargs)
 
 
 class FieldsForTemplateCreateView(LoginRequiredMixin, FieldsBaseView, CreateView):
     form_class = FieldsBaseForm
 
     def get_success_url(self) -> str:
-        self.previos_template_pk = self.request.META.get('HTTP_REFERER').split('/')[-2]
-        return reverse_lazy('fields_list',kwargs={'pk': self.previos_template_pk})
-
-    def get(self, request, *args: str, **kwargs):
-        return super().get(request, *args, **kwargs)
+        return reverse_lazy('fields_list', kwargs={'pk': self.get_template_pk()})
 
 
 class FieldsForTemplateUpdateView(LoginRequiredMixin, FieldsBaseView, UpdateView):
-    pass
+    form_class = FieldsBaseForm
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['header'] = 'Обновить поле'
+        context['text_button'] = f'Обновить'
+        context['under_url'] = reverse_lazy(
+            'fields_list', kwargs={'pk': self.get_template_pk()})
+        return context
 
 
 class FieldsForTemplateDeleteView(LoginRequiredMixin, FieldsBaseView, DeleteView):
-    pass
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['header'] = f'<h3>Вы действительно хотите удалить поле</h3><h1>"{context["replacefield"].title}"?</h1>'
+        context['text_button'] = f'Удалить'
+        context['under_url'] = reverse_lazy('fields_list', kwargs={'pk': self.get_template_pk()})
+        return context
