@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+{% block container %}
+<div class="container">
+    <div class="row">
+        {% if fields_list %}
+        <h3>Cписок полей для шаблона</h3>
+        {% forindex fields_list 0 as first_field %}
+        <h1>"{{first_field.template}}"</h1>
+        <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#createField">
+            Добавить поле
+        </button>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Название</th>
+                    <th scope="col">Файл шаблона</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            {% for field in fields_list %}
+            <tbody>
+                <tr>
+                    <td><a class="btn btn-outline-info" href="#">Редактировать</a>
+                    </td>
+                    <td><a class="btn btn-outline-danger" href="#">Удалить</a>
+                    </td>
+                </tr>
+            </tbody>
+            {% endfor %}
+        </table>
+        {% endif %}
+    </div>
+
+    <div class="modal fade" id="createField" tabindex="-1" aria-labelledby="createFieldLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="createFieldLabel">Создать поле для шаблона "{{first_field.template}}"</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{% url 'fields_create' %}" method="POST" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        {% csrf_token %}
+                        {{form.as_p}}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Закрыть</button>
+                        <button type="submit" class="btn btn-outline-primary">Создать</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

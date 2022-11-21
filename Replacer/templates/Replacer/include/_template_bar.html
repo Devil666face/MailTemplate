@@ -3,7 +3,9 @@
     <div class="list-group">
         {% for template in template_list %}
         <a href="{{template.get_absolute_url}}"
-            class="list-group-item list-group-item-action {% if template.get_absolute_url == path %}text-bg-dark{% endif %}">{{template.title}}</a>
+            class="list-group-item list-group-item-action {% if template.get_absolute_url == path %}text-bg-light{% endif %}">{{template.title}}
+        <a href="{% url 'fields_list' template.pk %}">изм.</a>
+        </a>
         {% endfor %}
     </div>
 </div>

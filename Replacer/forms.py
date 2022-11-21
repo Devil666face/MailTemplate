@@ -25,6 +25,12 @@ class TemplateBaseForm(BootstrapForm):
         fields = '__all__'
 
 
+class FieldsBaseForm(BootstrapForm):
+    class Meta:
+        model = ReplaceField
+        fields = '__all__'
+
+
 class ReplaceFieldFormUpdate(BootstrapForm):
     class Meta:
         model = ReplaceField

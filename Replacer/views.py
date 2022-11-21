@@ -97,3 +97,46 @@ class TemplateDeleteView(LoginRequiredMixin, TemplateBaseView, DeleteView):
         context['header'] = f'<h3>Вы действительно хотите удалить шаблон</h3><h1>"{context["template"].title}"?</h1>'
         context['text_button'] = f'Удалить'
         return context
+
+
+class FieldsForTemplateView(LoginRequiredMixin, ListView):
+    model = ReplaceField
+    template_name = 'Replacer/fields_list.html'
+
+    def get(self, request, *args, **kwargs) -> HttpResponse:
+        self.pk = kwargs.get('pk')
+        return super().get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['fields_list'] = ReplaceField.objects.filter(template=self.pk).select_related('template')
+        # context['form'] = FieldsBaseForm(initial={'template':1})
+        context['form'] = FieldsBaseForm()
+        # print(Template.objects.get(pk=self.pk))
+        print(context['form']['template'].value())
+        return context
+
+
+class FieldsBaseView:
+    model = ReplaceField
+    template_name = 'form.html'
+    login_url = '/login/'
+
+
+class FieldsForTemplateCreateView(LoginRequiredMixin, FieldsBaseView, CreateView):
+    form_class = FieldsBaseForm
+    # success_url = 
+    def get_success_url(self) -> str:
+        self.previos_template_pk = self.request.META.get('HTTP_REFERER').split('/')[-2]
+        return reverse_lazy('fields_list',kwargs={'pk': self.previos_template_pk})
+
+    def get(self, request, *args: str, **kwargs):
+        return super().get(request, *args, **kwargs)
+
+
+class FieldsForTemplateUpdateView(LoginRequiredMixin, FieldsBaseView, UpdateView):
+    pass
+
+
+class FieldsForTemplateDeleteView(LoginRequiredMixin, FieldsBaseView, DeleteView):
+    pass
