@@ -19,5 +19,5 @@ urlpatterns = [
     path('fields/<int:pk>/delete/', FieldsForTemplateDeleteView.as_view(), name='fields_delete'),
 
     path('template/<int:pk>/', TemplateDetailView.as_view(), name='template'),
-    path('create-document/<int:pk>', CreateDocumentView.as_view(), name='create_document'),
+    path('create-document/<int:pk>', CreateDocumentViewRedirect.as_view(), name='create_document'),
 ]

@@ -5,43 +5,40 @@
     <div class="row">
         {% if template_list %}
         <h1>Cписок шаблонов</h1>
-        <button type="button" class="btn btn-success shadow mt-3 mb-3" data-bs-toggle="modal" data-bs-target="#createModal">
+        <button type="button" class="btn btn-success shadow mt-3 mb-3" data-bs-toggle="modal"
+            data-bs-target="#createModal">
             Добавить шаблон
         </button>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Название</th>
-                    <th scope="col">Файл шаблона</th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-            {% for template in template_list %}
-            <tbody>
-                <tr>
-                    <td><a class="btn d-flex btn-light shadow" href="{% url 'template' template.pk %}">{{template.title}}</a></td>
-                    <td><a class="btn d-flex btn-light shadow" href="/media/{{template.file}}">{{template.file}}</a></td>
-                    <td><a class="btn d-flex btn-primary shadow" href="{% url 'template_update' template.pk %}">Редактировать</a>
-                    </td>
-                    <td><a class="btn d-flex btn-danger shadow" href="{% url 'template_delete' template.pk %}">Удалить</a>
-                    </td>
-                </tr>
-            </tbody>
-            {% endfor %}
-        </table>
-        {% endif %}
-        {% comment %}
-        {% if form %}
-        <h1>{{header}}</h1>
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{form.as_p}}
-            <button type="submit" class="btn btn-primary btn-dark mb-3 form-control">{{text_button}}</button>
-        </form>
-        {% endif %}
-        {% endcomment %}
-    </div>
+        <div class="bg-light shadow rounded-5 p-3">
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Название</th>
+                        <th scope="col">Файл шаблона</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                {% for template in template_list %}
+                <tbody>
+                    <tr>
+                        <td><a class="btn d-flex btn-light shadow"
+                                href="{% url 'template' template.pk %}">{{template.title}}</a></td>
+                        <td><a class="btn d-flex btn-light shadow" href="/media/{{template.file}}">{{template.file}}</a>
+                        </td>
+                        <td><a class="btn d-flex btn-primary shadow"
+                                href="{% url 'template_update' template.pk %}">Редактировать</a>
+                        </td>
+                        <td><a class="btn d-flex btn-danger shadow"
+                                href="{% url 'template_delete' template.pk %}">Удалить</a>
+                        </td>
+                    </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+            {% endif %}
+        </div>
 
     <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
         <div class="modal-dialog">

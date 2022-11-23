@@ -1,11 +1,14 @@
 from django.shortcuts import render
-from django.views.generic import DetailView, ListView, FormView, UpdateView, CreateView, DeleteView
+from django.views.generic import DetailView, ListView, FormView, UpdateView, CreateView, DeleteView, RedirectView
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse
-from django.urls import reverse_lazy
-from .models import *
-from .forms import *
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse_lazy, reverse
+from django.shortcuts import redirect
+from Replacer.models import Template, ReplaceField
+from Replacer.forms import *
+from Replacer.DocUtils.docutils import DocUtils
+from config.settings import MEDIA_URL
 
 
 class UserLogout(LogoutView):
@@ -34,6 +37,7 @@ class TemplateDetailView(LoginRequiredMixin, DetailView):
             ReplaceField.objects.filter(template_id=self.pk))
         context['field_list'] = ReplaceField.objects.filter(
             template_id=self.pk)
+        context['doc_name_form'] = DocNameForm()
         return context
 
     def get(self, request, *args, **kwargs):
@@ -47,17 +51,22 @@ class HomeView(LoginRequiredMixin, ListView):
     login_url = '/login/'
 
 
-class CreateDocumentView(LoginRequiredMixin, FormView):
-    form_class = ReplaceFieldFormUpdate
-    template_name = 'Replacer/template_list.html'
+class CreateDocumentViewRedirect(LoginRequiredMixin, RedirectView):
+    url = reverse_lazy('home')
     login_url = '/login/'
 
     def post(self, request, *args, **kwargs):
-        self.pk = kwargs.get('pk')
-        print(self.pk)
+        self.template_pk = kwargs.get('pk')
         print(request.POST)
-        print(request.POST.getlist('replace_value'))
-        return HttpResponse("<h1>Форма принята</h1>")
+        template = Template.objects.get(pk=self.template_pk)
+        field_list = ReplaceField.objects.filter(template=template)
+        insert_fields_list = request.POST.getlist('replace_value')
+        doc_name = request.POST.get('doc_name')
+        doc_path = DocUtils(template=template, field_list=field_list, insert_fields_list=insert_fields_list, doc_name=doc_name).make_document()
+        doc_url = f"{request.META.get('HTTP_ORIGIN')}{doc_path}"
+        return redirect(doc_url)
+        print(doc_url)
+        return redirect('home')
 
 
 class TemplateBaseView:
@@ -164,9 +173,10 @@ class FieldsForTemplateDeleteView(LoginRequiredMixin, FieldsBaseView, DeleteView
         context = super().get_context_data(**kwargs)
         context['header'] = f'<h3>Вы действительно хотите удалить поле</h3><h1>"{context["replacefield"].title}"?</h1>'
         context['text_button'] = f'Удалить'
-        context['under_url'] = reverse_lazy('fields_list', kwargs={'pk': self.get_template_pk()})
+        context['under_url'] = reverse_lazy(
+            'fields_list', kwargs={'pk': self.get_template_pk()})
         return context
-        
+
     def post(self, request, *args, **kwargs) -> HttpResponse:
         self.template_pk = ReplaceField.objects.get(
             pk=kwargs['pk']).template.pk
