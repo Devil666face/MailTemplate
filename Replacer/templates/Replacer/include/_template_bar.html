@@ -1,23 +1,10 @@
 {% block template_bar %}
-{% comment %}
-<div class="list-group">
-    {% for template in template_list %}
-    <ul class="list-group list-group-horizontal flex-md-row">
-        <a href="{{template.get_absolute_url}}"
-            class="flex-fill list-group-item list-group-item-action {% if template.get_absolute_url == path %}list-group-item-success{% endif %}">{{template.title}}
-        </a>
-        <a class="flex-fill list-group-item list-group-item-action {% if template.get_absolute_url == path %}list-group-item-success{% endif %}"
-            href="{% url 'fields_list' template.pk %}">изм.</a>
-    </ul>
-    {% endfor %}
-</div>
-{% endcomment %}
-<table class="table table-borderless">
+<table class="table table-borderless mt-3">
     <tbody>
         {% for template in template_list %}
         <tr>
-            <td><a class="d-flex btn {% if template.get_absolute_url == path %}btn-success{% else %}btn-light{% endif %}" href="{{template.get_absolute_url}}">{{template.title}}</a></td>
-            <td style="max-width: 48px;"><a class="d-flex btn {% if template.get_absolute_url == path %}btn-success{% else %}btn-light{% endif %}" href="{% url 'fields_list' template.pk %}">✏️</a></td>
+            <td><a class="shadow d-flex btn {% if template.get_absolute_url == path %}btn-success{% else %}btn-light{% endif %}" href="{{template.get_absolute_url}}">{{template.title}}</a></td>
+            <td style="max-width: 48px;"><a class="shadow d-flex btn {% if template.get_absolute_url == path %}btn-success{% else %}btn-light{% endif %}" href="{% url 'fields_list' template.pk %}">✏️</a></td>
         </tr>
         {% endfor %}
     </tbody>

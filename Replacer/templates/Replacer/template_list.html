@@ -1,14 +1,11 @@
 {% extends 'base.html' %}
 {% load custom_filters %}
 {% block container %}
-<div class="container">
+<div class="container rounded-5 p-5 shadow" style="background-color: #d5d5d5;">
     <div class="row">
         {% if template_list %}
         <h1>Cписок шаблонов</h1>
-        {% comment %}
-        <a class="btn btn-outline-primary" href="{% url 'tamplate_create' %}">Добавить шаблон</a>
-        {% endcomment %}
-        <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#createModal">
+        <button type="button" class="btn btn-success shadow mt-3 mb-3" data-bs-toggle="modal" data-bs-target="#createModal">
             Добавить шаблон
         </button>
         <table class="table">
@@ -23,12 +20,11 @@
             {% for template in template_list %}
             <tbody>
                 <tr>
-                    <th scope="row"><a class="btn btn-light"
-                            href="{% url 'template' template.pk %}">{{template.title}}</a></th>
-                    <td><a class="btn btn-outline-success" href="/media/{{template.file}}">{{template.file}}</a></td>
-                    <td><a class="btn btn-outline-info" href="{% url 'template_update' template.pk %}">Редактировать</a>
+                    <td><a class="btn d-flex btn-light shadow" href="{% url 'template' template.pk %}">{{template.title}}</a></td>
+                    <td><a class="btn d-flex btn-light shadow" href="/media/{{template.file}}">{{template.file}}</a></td>
+                    <td><a class="btn d-flex btn-primary shadow" href="{% url 'template_update' template.pk %}">Редактировать</a>
                     </td>
-                    <td><a class="btn btn-outline-danger" href="{% url 'template_delete' template.pk %}">Удалить</a>
+                    <td><a class="btn d-flex btn-danger shadow" href="{% url 'template_delete' template.pk %}">Удалить</a>
                     </td>
                 </tr>
             </tbody>
@@ -60,8 +56,8 @@
                         {{form.as_p}}
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Закрыть</button>
-                        <button type="submit" class="btn btn-outline-primary">Создать</button>
+                        <button type="button" class="btn btn-success shadow" data-bs-dismiss="modal">Закрыть</button>
+                        <button type="submit" class="btn btn-danger shadow">Создать</button>
                     </div>
                 </form>
             </div>

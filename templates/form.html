@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load custom_filters %}
 {% block container %}
-<div class="container">
+<div class="container rounded-5 p-5 shadow" style="background-color: #d5d5d5;">
     {% if form %}
     <div class="row">
         <form method="POST" enctype="multipart/form-data">
@@ -10,10 +10,10 @@
             {{form.as_p}}
             <div class="row">
                 <div class="col">
-                    <a href="{{under_url}}" class="btn btn-outline-secondary form-control">Отменить</a>
+                    <a href="{{under_url}}" class="btn btn-danger shadow form-control">Отменить</a>
                 </div>
                 <div class="col">
-                    <button type="submit" class="btn btn-outline-primary form-control">{{text_button}}</button>
+                    <button type="submit" class="btn btn-success shadow form-control">{{text_button}}</button>
                 </div>
             </div>
         </form>

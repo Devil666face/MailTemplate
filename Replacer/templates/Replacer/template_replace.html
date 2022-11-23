@@ -3,12 +3,12 @@
 {% block container %}
 <div class="container">
     <div class="row justify-content-between">
-        <div class="col-md-3 p-3 align-self-start border rounded bg-light mb-3">
+        <div class="col-md-3 p-3 align-self-start border rounded-5 shadow" style="background-color: #d5d5d5;">
             {% show_template_bar path %}
         </div>
         {% if pk %}
         {% if form_list %}
-        <div class="col-md-8 bg-light p-3 border rounded">
+        <div class="col-md-8 p-3 border rounded-5 shadow" style="background-color: #d5d5d5;">
             <form action="{% url 'create_document' pk %}" method="POST" enctype="multipart/form-data">
                 {% for form in form_list %}
                 {% csrf_token %}
@@ -21,7 +21,7 @@
                     </div>
                 </div>
                 {% endfor %}
-                <button type="submit" class="btn btn-primary form-control">Создать документ</button>
+                <button type="submit" class="btn btn-outline-primary form-control">Создать документ</button>
             </form>
             {% else %}
             <div class="col-md-9 bg-light p-3 border rounded">

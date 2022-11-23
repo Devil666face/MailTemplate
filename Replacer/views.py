@@ -132,11 +132,6 @@ class FieldsBaseView(FormView):
     def get_success_url(self) -> str:
         return reverse_lazy('fields_list', kwargs={'pk': self.template_pk})
 
-    def post(self, request, *args, **kwargs) -> HttpResponse:
-        self.template_pk = ReplaceField.objects.get(
-            pk=kwargs['pk']).template.pk
-        return super().post(request, *args, **kwargs)
-
 
 class FieldsForTemplateCreateView(LoginRequiredMixin, FieldsBaseView, CreateView):
     form_class = FieldsBaseForm
@@ -156,6 +151,11 @@ class FieldsForTemplateUpdateView(LoginRequiredMixin, FieldsBaseView, UpdateView
             'fields_list', kwargs={'pk': self.get_template_pk()})
         return context
 
+    def post(self, request, *args, **kwargs) -> HttpResponse:
+        self.template_pk = ReplaceField.objects.get(
+            pk=kwargs['pk']).template.pk
+        return super().post(request, *args, **kwargs)
+
 
 class FieldsForTemplateDeleteView(LoginRequiredMixin, FieldsBaseView, DeleteView):
 
@@ -165,3 +165,8 @@ class FieldsForTemplateDeleteView(LoginRequiredMixin, FieldsBaseView, DeleteView
         context['text_button'] = f'Удалить'
         context['under_url'] = reverse_lazy('fields_list', kwargs={'pk': self.get_template_pk()})
         return context
+        
+    def post(self, request, *args, **kwargs) -> HttpResponse:
+        self.template_pk = ReplaceField.objects.get(
+            pk=kwargs['pk']).template.pk
+        return super().post(request, *args, **kwargs)

@@ -1,26 +1,28 @@
 {% load static %}
-<nav class="navbar bg-light fixed-top">
+<nav class="navbar navbar-light fixed-top shadow-lg bg-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="{% url 'home' %}">Mail Replacer</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+    <a class="navbar-brand text-light" href="{% url 'home' %}">Mail Replacer</a>
+    <button class="navbar-toggler bg-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
       aria-controls="offcanvasNavbar">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-      <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">{{user}}</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      <div class="offcanvas-header bg-dark shadow">
+        <h5 class="offcanvas-title text-light" id="offcanvasNavbarLabel">{{user|capfirst}}</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
-      <div class="offcanvas-body">
+      <div class="offcanvas-body" style="background-color: #d5d5d5;">
         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
           <li class="nav-item">
-            <a class="nav-link btn btn-light mt-1" aria-current="page" href="{% url 'admin:index'%}">Администрирование</a>
+            <a class="nav-link shadow btn btn-light mt-1 text-dark" aria-current="page"
+              href="{% url 'admin:index'%}">Администрирование</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link btn btn-light mt-1" aria-current="page" href="{% url 'template_list' %}">Шаблоны</a>
+            <a class="nav-link shadow btn btn-light mt-1 text-dark" aria-current="page"
+              href="{% url 'template_list' %}">Шаблоны</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link btn btn-light mt-1" aria-current="page" href="{% url 'logout' %}">Выйти</a>
+            <a class="nav-link shadow btn btn-light mt-1 text-dark" aria-current="page" href="{% url 'logout' %}">Выйти</a>
           </li>
         </ul>
         <!-- <form class="d-flex mt-3" role="search">
