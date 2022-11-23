@@ -24,7 +24,7 @@ class ReplaceField(models.Model):
     replace_value = models.TextField(blank=False, verbose_name='Значение')
     tag = models.CharField(max_length=255, verbose_name='Тэг')
     template = models.ForeignKey(
-        Template, on_delete=models.PROTECT, null=False, verbose_name='Id шаблона')
+        Template, on_delete=models.CASCADE, null=False, verbose_name='Id шаблона')
 
     def __str__(self) -> str:
         return self.title

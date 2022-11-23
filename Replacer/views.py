@@ -62,11 +62,10 @@ class CreateDocumentViewRedirect(LoginRequiredMixin, RedirectView):
         field_list = ReplaceField.objects.filter(template=template)
         insert_fields_list = request.POST.getlist('replace_value')
         doc_name = request.POST.get('doc_name')
-        doc_path = DocUtils(template=template, field_list=field_list, insert_fields_list=insert_fields_list, doc_name=doc_name).make_document()
+        doc_path = DocUtils(template=template, field_list=field_list,
+                            insert_fields_list=insert_fields_list, doc_name=doc_name).make_document()
         doc_url = f"{request.META.get('HTTP_ORIGIN')}{doc_path}"
         return redirect(doc_url)
-        print(doc_url)
-        return redirect('home')
 
 
 class TemplateBaseView:
@@ -124,6 +123,7 @@ class FieldsForTemplateView(LoginRequiredMixin, ListView):
         context['fields_list'] = ReplaceField.objects.filter(
             template=self.pk).select_related('template')
         template = Template.objects.get(pk=self.pk)
+        context['template'] = template
         context['form'] = FieldsBaseForm(initial={'template': template, })
         print(context['form']['template'].value())
         return context

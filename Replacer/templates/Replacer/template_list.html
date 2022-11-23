@@ -1,14 +1,16 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load custom_filters %}
 {% block container %}
 <div class="container rounded-5 p-5 shadow" style="background-color: #d5d5d5;">
     <div class="row">
-        {% if template_list %}
+
         <h1>Cписок шаблонов</h1>
         <button type="button" class="btn btn-success shadow mt-3 mb-3" data-bs-toggle="modal"
             data-bs-target="#createModal">
             Добавить шаблон
         </button>
+        {% if template_list %}
         <div class="bg-light shadow rounded-5 p-3">
 
             <table class="table">
@@ -27,11 +29,17 @@
                                 href="{% url 'template' template.pk %}">{{template.title}}</a></td>
                         <td><a class="btn d-flex btn-light shadow" href="/media/{{template.file}}">{{template.file}}</a>
                         </td>
-                        <td><a class="btn d-flex btn-primary shadow"
-                                href="{% url 'template_update' template.pk %}">Редактировать</a>
+                        <td><a class="btn d-flex btn-primary shadow" href="{% url 'template_update' template.pk %}">
+                                <lord-icon src="{% static 'icons/edit.json' %}" trigger="hover"
+                                    style="width:24px;height:24px">
+                                </lord-icon>
+                            </a>
                         </td>
-                        <td><a class="btn d-flex btn-danger shadow"
-                                href="{% url 'template_delete' template.pk %}">Удалить</a>
+                        <td><a class="btn d-flex btn-danger shadow" href="{% url 'template_delete' template.pk %}">
+                                <lord-icon src="{% static 'icons/delete.json' %}" trigger="hover"
+                                    style="width:24px;height:24px">
+                                </lord-icon>
+                            </a>
                         </td>
                     </tr>
                 </tbody>
@@ -40,26 +48,27 @@
             {% endif %}
         </div>
 
-    <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="createModalLabel">Создать шаблон</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="createModalLabel">Создать шаблон</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="{% url 'tamplate_create' %}" method="POST" enctype="multipart/form-data">
+                        <div class="modal-body">
+                            {% csrf_token %}
+                            {{form.as_p}}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success shadow"
+                                data-bs-dismiss="modal">Закрыть</button>
+                            <button type="submit" class="btn btn-danger shadow">Создать</button>
+                        </div>
+                    </form>
                 </div>
-                <form action="{% url 'tamplate_create' %}" method="POST" enctype="multipart/form-data">
-                    <div class="modal-body">
-                        {% csrf_token %}
-                        {{form.as_p}}
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success shadow" data-bs-dismiss="modal">Закрыть</button>
-                        <button type="submit" class="btn btn-danger shadow">Создать</button>
-                    </div>
-                </form>
             </div>
         </div>
-    </div>
 
-</div>
-{% endblock %}
+    </div>
+    {% endblock %}

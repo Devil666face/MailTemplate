@@ -1,16 +1,17 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load custom_filters %}
 {% block container %}
 <div class="container rounded-5 p-5 shadow" style="background-color: #d5d5d5;">
     <div class="row">
-        {% if fields_list %}
         <h3>Cписок полей для шаблона</h3>
-        {% forindex fields_list 0 as first_field %}
-        <h1>"{{first_field.template}}"</h1>
+        <h1>"{{template}}"</h1>
         <button type="button" class="btn btn-success shadow mt-3 mb-3" data-bs-toggle="modal"
             data-bs-target="#createField">
             Добавить поле
         </button>
+        {% if fields_list %}
+        {% forindex fields_list 0 as first_field %}
         <div class="bg-light shadow rounded-5 p-3">
             <table class="table">
                 <thead>
@@ -28,10 +29,17 @@
                         <td>{{field.title}}</td>
                         <td>{{field.replace_value}}</td>
                         <td>{{field.tag}}</td>
-                        <td><a class="btn btn-primary shadow"
-                                href="{% url 'fields_update' field.pk %}">Редактировать</a>
+                        <td><a class="btn btn-primary shadow" href="{% url 'fields_update' field.pk %}">
+                                <lord-icon src="{% static 'icons/edit.json' %}" trigger="hover"
+                                    style="width:24px;height:24px">
+                                </lord-icon>
+                            </a>
                         </td>
-                        <td><a class="btn btn-danger shadow" href="{% url 'fields_delete' field.pk %}">Удалить</a></td>
+                        <td><a class="btn btn-danger shadow" href="{% url 'fields_delete' field.pk %}">
+                                <lord-icon src="{% static 'icons/delete.json' %}" trigger="hover"
+                                    style="width:24px;height:24px">
+                                </lord-icon>
+                            </a></td>
                     </tr>
                 </tbody>
                 {% endfor %}

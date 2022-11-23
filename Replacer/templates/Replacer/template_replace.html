@@ -3,12 +3,12 @@
 {% block container %}
 <div class="container">
     <div class="row justify-content-between">
-        <div class="col-md-3 p-3 align-self-start border rounded-5 shadow" style="background-color: #d5d5d5;">
+        <div class="col-md-3 p-3 align-self-start border rounded-5 shadow mb-3" style="background-color: #d5d5d5;">
             {% show_template_bar path %}
         </div>
         {% if pk %}
         {% if form_list %}
-        <div class="col-md-8 p-3 border rounded-5 shadow" style="background-color: #d5d5d5;">
+        <div class="col-md-8 p-3 border rounded-5 shadow mb-3" style="background-color: #d5d5d5;">
             <form action="{% url 'create_document' pk %}" method="POST" enctype="multipart/form-data">
                 {% for form in form_list %}
                 {% csrf_token %}
@@ -23,11 +23,13 @@
                     </div>
                 </div>
                 {% endfor %}
-                {{doc_name_form.as_p}}
-                <button type="submit" class="btn btn-success shadow form-control">Создать документ</button>
+                <div class="border rounded-5 shadow p-3 bg-light">
+                    {{doc_name_form.as_p}}
+                    <button type="submit" class="btn btn-success shadow form-control">Создать документ</button>
+                </div>
             </form>
             {% else %}
-            <div class="col-md-9 bg-light p-3 border rounded">
+            <div class="col-md-8 p-3 border rounded-5 shadow" style="background-color: #d5d5d5;">
                 <h5 class="card-title">Поля для замены не созданы</h5>
             </div>
             {% endif %}

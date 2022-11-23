@@ -27,6 +27,6 @@ class DocUtils:
     def make_document(self):
         template = DocxTemplate(self.doxc_template_path)
         template.render(context=self.context)
-        doc_path = f"{self.get_path_to_save()}{self.doc_name}"
+        doc_path = f"{self.get_path_to_save()}{self.doc_name}.docx"
         template.save(doc_path)
         return f"/{doc_path}"
