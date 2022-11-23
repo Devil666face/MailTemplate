@@ -1,6 +1,15 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load custom_filters %}
+{% block title %}
+
+{% if form_list %}
+Создание документа
+{% else %}
+Главная страница
+{% endif %}
+{% endblock title %}
+
 {% block container %}
 <div class="container">
 
