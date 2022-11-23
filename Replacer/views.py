@@ -55,6 +55,7 @@ class CreateDocumentView(LoginRequiredMixin, FormView):
     def post(self, request, *args, **kwargs):
         self.pk = kwargs.get('pk')
         print(self.pk)
+        print(request.POST)
         print(request.POST.getlist('replace_value'))
         return HttpResponse("<h1>Форма принята</h1>")
 

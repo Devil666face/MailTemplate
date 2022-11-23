@@ -11,19 +11,19 @@
         <h5 class="offcanvas-title text-light" id="offcanvasNavbarLabel">{{user|capfirst}}</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
-      <div class="offcanvas-body" style="background-color: #d5d5d5;">
-        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-          <li class="nav-item">
-            <a class="nav-link shadow btn btn-light mt-1 text-dark" aria-current="page"
-              href="{% url 'admin:index'%}">Администрирование</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link shadow btn btn-light mt-1 text-dark" aria-current="page"
-              href="{% url 'template_list' %}">Шаблоны</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link shadow btn btn-light mt-1 text-dark" aria-current="page" href="{% url 'logout' %}">Выйти</a>
-          </li>
+      <div class="offcanvas-body" style="background-color: #6D7993;">
+        <ul class="navbar-nav justify-content-end flex-grow-1 p-3 rounded-5 shadow" style="background-color: #d5d5d5;">
+            <li class="nav-item">
+              <a class="nav-link shadow btn btn-light mt-1 text-dark" aria-current="page"
+                href="{% url 'admin:index'%}">Администрирование</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link shadow btn btn-light mt-1 text-dark" aria-current="page"
+                href="{% url 'template_list' %}">Шаблоны</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link shadow btn btn-light mt-1 text-dark" aria-current="page" href="{% url 'logout' %}">Выйти</a>
+            </li>
         </ul>
         <!-- <form class="d-flex mt-3" role="search">
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">

@@ -13,15 +13,17 @@
                 {% for form in form_list %}
                 {% csrf_token %}
                 {% forindex field_list forloop.counter0 as field %}
-                <div class="card mb-3">
+                <div class="card mb-3 shadow rounded-5">
                     <div class="card-body">
-                        <h5 class="card-title">Поле: {{field.title}}</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Тэг: {{field.tag}}</h6>
+                        <h4 class="card-title">Поле: {{field.title}}</h5>
                         <p class="card-text">{{ form.replace_value }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">Тэг: {{field.tag}}</small>
                     </div>
                 </div>
                 {% endfor %}
-                <button type="submit" class="btn btn-outline-primary form-control">Создать документ</button>
+                <button type="submit" class="btn btn-success shadow form-control">Создать документ</button>
             </form>
             {% else %}
             <div class="col-md-9 bg-light p-3 border rounded">

@@ -41,3 +41,6 @@ class ReplaceFieldFormUpdate(BootstrapForm):
     class Meta:
         model = ReplaceField
         fields = ['title', 'replace_value', 'tag']
+        widgets = {
+            'replace_value':forms.Textarea(attrs = {"rows":"5",},),
+        }
