@@ -4,12 +4,8 @@
 {% block container %}
 <div class="container rounded-5 p-5 shadow" style="background-color: #d5d5d5;">
     <div class="row">
-
         <h1>Cписок шаблонов</h1>
-        <button type="button" class="btn btn-success shadow mt-3 mb-3" data-bs-toggle="modal"
-            data-bs-target="#createModal">
-            Добавить шаблон
-        </button>
+        {% include 'Replacer/include/_add_button.html' %}
         {% if template_list %}
         <div class="bg-light shadow rounded-5 p-3">
 
@@ -26,18 +22,23 @@
                 <tbody>
                     <tr>
                         <td><a class="btn d-flex btn-light shadow"
-                                href="{% url 'template' template.pk %}">{{template.title}}</a></td>
-                        <td><a class="btn d-flex btn-light shadow" href="/media/{{template.file}}">{{template.file}}</a>
+                                href="{% url 'template' template.pk %}">
+                                <h5>{{template.title}}</h5>
+                            </a></td>
+                        <td><a class="btn d-flex btn-light shadow" href="/media/{{template.file}}">
+                            <h5>
+                                {{template.file}}
+                            </h5></a>
                         </td>
-                        <td><a class="btn d-flex btn-primary shadow" href="{% url 'template_update' template.pk %}">
+                        <td><a class="btn btn-outline-primary shadow" href="{% url 'template_update' template.pk %}">
                                 <lord-icon src="{% static 'icons/edit.json' %}" trigger="hover"
-                                    style="width:24px;height:24px">
+                                    style="width:32px;height:32px">
                                 </lord-icon>
                             </a>
                         </td>
-                        <td><a class="btn d-flex btn-danger shadow" href="{% url 'template_delete' template.pk %}">
+                        <td><a class="btn btn-outline-danger shadow" href="{% url 'template_delete' template.pk %}">
                                 <lord-icon src="{% static 'icons/delete.json' %}" trigger="hover"
-                                    style="width:24px;height:24px">
+                                    style="width:32px;height:32px">
                                 </lord-icon>
                             </a>
                         </td>
@@ -60,11 +61,7 @@
                             {% csrf_token %}
                             {{form.as_p}}
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-success shadow"
-                                data-bs-dismiss="modal">Закрыть</button>
-                            <button type="submit" class="btn btn-danger shadow">Создать</button>
-                        </div>
+                        {% include 'Replacer/include/_modal_footer.html' %}
                     </form>
                 </div>
             </div>

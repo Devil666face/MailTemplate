@@ -1,0 +1,14 @@
+{% load static %}
+<button type="button" class="btn btn-outline-success shadow mt-3 mb-3 rounded-5" data-bs-toggle="modal" data-bs-target="{% if template %}
+    #createField
+{% else %}
+    #createModal
+{% endif %}">
+    <lord-icon src="{% static 'icons/plus.json' %}" trigger="hover" style="width:48px;height:48px">
+    </lord-icon>
+    {% if template %}
+    Добавить поле
+{% else %}
+    Добавить шаблон
+{% endif %}
+</button>

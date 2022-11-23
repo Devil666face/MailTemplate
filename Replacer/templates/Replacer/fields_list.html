@@ -6,10 +6,7 @@
     <div class="row">
         <h3>Cписок полей для шаблона</h3>
         <h1>"{{template}}"</h1>
-        <button type="button" class="btn btn-success shadow mt-3 mb-3" data-bs-toggle="modal"
-            data-bs-target="#createField">
-            Добавить поле
-        </button>
+        {% include 'Replacer/include/_add_button.html' %}
         {% if fields_list %}
         {% forindex fields_list 0 as first_field %}
         <div class="bg-light shadow rounded-5 p-3">
@@ -26,20 +23,21 @@
                 {% for field in fields_list %}
                 <tbody>
                     <tr>
-                        <td>{{field.title}}</td>
-                        <td>{{field.replace_value}}</td>
-                        <td>{{field.tag}}</td>
-                        <td><a class="btn btn-primary shadow" href="{% url 'fields_update' field.pk %}">
+                        <td><h5>{{field.title}}</h5></td>
+                        <td><h5>{{field.replace_value}}</h5></td>
+                        <td><h5>{{field.tag}}</h5></td>
+                        <td><a class="btn btn-outline-primary shadow" href="{% url 'fields_update' field.pk %}">
                                 <lord-icon src="{% static 'icons/edit.json' %}" trigger="hover"
-                                    style="width:24px;height:24px">
+                                    style="width:32px;height:32px">
                                 </lord-icon>
                             </a>
                         </td>
-                        <td><a class="btn btn-danger shadow" href="{% url 'fields_delete' field.pk %}">
+                        <td><a class="btn btn-outline-danger shadow" href="{% url 'fields_delete' field.pk %}">
                                 <lord-icon src="{% static 'icons/delete.json' %}" trigger="hover"
-                                    style="width:24px;height:24px">
+                                    style="width:32px;height:32px">
                                 </lord-icon>
-                            </a></td>
+                            </a>
+                        </td>
                     </tr>
                 </tbody>
                 {% endfor %}
@@ -52,7 +50,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="createFieldLabel">Создать поле для шаблона
-                            "{{first_field.template}}"</h1>
+                            "{{template}}"</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form action="{% url 'fields_create' %}" method="POST" enctype="multipart/form-data">
@@ -60,11 +58,7 @@
                             {% csrf_token %}
                             {{form.as_p}}
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-success shadow"
-                                data-bs-dismiss="modal">Закрыть</button>
-                            <button type="submit" class="btn btn-danger shadow">Создать</button>
-                        </div>
+                        {% include 'Replacer/include/_modal_footer.html' %}
                     </form>
                 </div>
             </div>

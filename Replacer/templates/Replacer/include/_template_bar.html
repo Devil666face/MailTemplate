@@ -1,24 +1,26 @@
 {% load static %}
 {% block template_bar %}
+
 <table class="table table-borderless">
     <tbody>
         {% if template_list %}
         {% for template in template_list %}
         <tr class="d-flex justify-content-lg-between">
-            <td><a class="shadow btn {% if template.get_absolute_url == path %}btn-success{% else %}btn-light{% endif %}" href="{{template.get_absolute_url}}">{{template.title}}</a></td>
-            <td><a class="shadow btn {% if template.get_absolute_url == path %}btn-success{% else %}btn-light{% endif %}" href="{% url 'fields_list' template.pk %}">
-                <lord-icon
-            src="{% static 'icons/edit.json' %}"
-            trigger="hover"
-            style="width:24px;height:24px">
-            </lord-icon>
-            </a>
+            <td><a class="rounded-5 shadow btn {% if template.get_absolute_url == path %}btn-success{% else %}btn-outline-success{% endif %}"
+                    href="{{template.get_absolute_url}}"><h6>{{template.title}}</h6></a></td>
+            <td><a class="rounded-5 shadow btn {% if template.get_absolute_url == path %}btn-success{% else %}btn-outline-success{% endif %}"
+                    href="{% url 'fields_list' template.pk %}">
+                    <lord-icon src="{% static 'icons/edit.json' %}" trigger="hover" style="width:32px;height:32px">
+                    </lord-icon>
+                </a>
             </td>
         </tr>
         {% endfor %}
         {% else %}
         <tr>
-            <td><p>Не один шаблон не создан</p></td>
+            <td>
+                <p>Не один шаблон не создан</p>
+            </td>
         </tr>
         {% endif %}
     </tbody>

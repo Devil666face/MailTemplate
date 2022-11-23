@@ -1,4 +1,5 @@
 {% load static %}
+{% load custom_filters %}
 <nav class="navbar navbar-light fixed-top shadow-lg bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand text-light" href="{% url 'home' %}">Mail Replacer</a>
@@ -12,19 +13,32 @@
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body" style="background-color: #6D7993;">
-        <ul class="navbar-nav justify-content-end flex-grow-1 p-3 rounded-5 shadow" style="background-color: #d5d5d5;">
+        <ul class="navbar-nav justify-content-end flex-grow-1 p-3 rounded-5 shadow mb-3" style="background-color: #d5d5d5;">
             <li class="nav-item">
-              <a class="nav-link shadow btn btn-light mt-1 text-dark" aria-current="page"
-                href="{% url 'admin:index'%}">Администрирование</a>
+              <a class="nav-link shadow btn btn-light text-dark rounded-5" aria-current="page"
+                href="{% url 'admin:index'%}">
+                <lord-icon src="{% static 'icons/admin.json' %}" trigger="hover" style="width:32px;height:32px">
+                </lord-icon>
+                Администрирование</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link shadow btn btn-light mt-1 text-dark" aria-current="page"
-                href="{% url 'template_list' %}">Шаблоны</a>
+              <a class="nav-link shadow btn btn-light mt-2 text-dark rounded-5" aria-current="page"
+                href="{% url 'template_list' %}">
+                <lord-icon src="{% static 'icons/templates.json' %}" trigger="hover" style="width:32px;height:32px">
+                </lord-icon>
+                Шаблоны</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link shadow btn btn-light mt-1 text-dark" aria-current="page" href="{% url 'logout' %}">Выйти</a>
+              <a class="nav-link shadow btn btn-light mt-2 text-dark rounded-5" aria-current="page" href="{% url 'logout' %}">
+                <lord-icon src="{% static 'icons/logout.json' %}" trigger="hover" style="width:32px;height:32px">
+                </lord-icon>
+                Выйти</a>
             </li>
         </ul>
+
+        <ul class="navbar-nav justify-content-end flex-grow-1 p-3 rounded-5 shadow" style="background-color: #d5d5d5;">
+          {% show_template_bar path %}
+      </ul>
       </div>
     </div>
   </div>
