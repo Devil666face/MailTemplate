@@ -27,6 +27,7 @@
         <div class="col-7 p-3 border rounded-5 shadow mb-3" style="background-color: #d5d5d5;">
             {% endcomment %}
             <div class="p-3 border rounded-5 shadow mb-3" style="background-color: #d5d5d5;">
+                <h3>Создание документа</h3>
                 <form action="{% url 'create_document' pk %}" method="POST" enctype="multipart/form-data">
                     {% for form in form_list %}
                     {% csrf_token %}

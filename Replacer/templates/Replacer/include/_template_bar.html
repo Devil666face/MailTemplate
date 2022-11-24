@@ -2,6 +2,7 @@
 {% block template_bar %}
 
 <table class="table table-borderless">
+    <h5 class="bg-light rounded-5 shadow p-3 text-center">Выбрать шаблон</h5>
     <tbody>
         {% if template_list %}
         {% for template in template_list %}
@@ -19,7 +20,7 @@
         {% else %}
         <tr>
             <td>
-                <p>Не один шаблон не создан</p>
+                <h5 class="bg-light rounded-5 shadow p-3 text-center">Не один шаблон не создан</h5>
             </td>
         </tr>
         {% endif %}
