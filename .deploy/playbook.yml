@@ -1,0 +1,20 @@
+- hosts: all
+  become: yes 
+  become_user: root
+  vars:
+    host: "192.168.56.102"
+    proj_dir: "{{ inventory_dir }}/.."
+  tasks:
+    # - name: Debug {{ proj_dir }}
+    #   debug: 
+    #     msg: 'Debug {{ proj_dir }}'
+    - name: Copy src files
+      ansible.builtin.copy:
+       src: '{{ proj_dir }}/src/'
+       dest: /var/www/MailTemplate/
+    
+    - name: Copy nginx files
+      ansible.builtin.copy:
+       src: '{{ proj_dir }}/nginx_source/'
+       dest: /var/www/nginx_source/
+    
