@@ -22,7 +22,7 @@ class BootstrapForm(forms.ModelForm):
 class TemplateBaseForm(BootstrapForm):
     class Meta:
         model = Template
-        fields = '__all__'
+        fields = ('title','file')
 
 
 class FieldsBaseForm(BootstrapForm):
@@ -44,6 +44,7 @@ class ReplaceFieldFormUpdate(BootstrapForm):
         widgets = {
             'replace_value':forms.Textarea(attrs = {"rows":"5",},),
         }
+
 
 class DocNameForm(forms.Form):
     doc_name = forms.CharField(label='Имя документа', max_length=100, widget=forms.TextInput(attrs = {"class":"form-control"}))

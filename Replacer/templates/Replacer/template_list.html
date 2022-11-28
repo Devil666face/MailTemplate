@@ -5,7 +5,7 @@
 {% block container %}
 <div class="container rounded-5 p-5 shadow" style="background-color: #d5d5d5;">
     <div class="row">
-        <h1>Cписок шаблонов</h1>
+        <h1>Cписок шаблонов для пользователя {{user}}</h1>
         {% include 'Replacer/include/_add_button.html' %}
         {% if template_list %}
         <div class="bg-light shadow rounded-5 p-3">

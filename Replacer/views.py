@@ -67,6 +67,13 @@ class CreateDocumentViewRedirect(LoginRequiredMixin, RedirectView):
         doc_url = f"{request.META.get('HTTP_ORIGIN')}{doc_path}"
         return redirect(doc_url)
 
+class OwnerFormMixin(CreateView):
+
+    def form_valid(self, form) -> HttpResponse:
+        self.object = form.save(commit=False)
+        self.object.owner = self.request.user
+        self.object.save()
+        return super().form_valid(form)
 
 class TemplateBaseView:
     model = Template
@@ -84,6 +91,10 @@ class TemplateListView(TemplateBaseView, LoginRequiredMixin, ListView):
         context['form'] = TemplateBaseForm()
         return context
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(owner=self.request.user)
+
 
 class TemplateUpdateView(LoginRequiredMixin, TemplateBaseView, UpdateView):
     form_class = TemplateBaseForm
@@ -96,7 +107,7 @@ class TemplateUpdateView(LoginRequiredMixin, TemplateBaseView, UpdateView):
         return context
 
 
-class TemplateCreateView(LoginRequiredMixin, TemplateBaseView, CreateView):
+class TemplateCreateView(LoginRequiredMixin, TemplateBaseView, OwnerFormMixin):
     form_class = TemplateBaseForm
 
 
