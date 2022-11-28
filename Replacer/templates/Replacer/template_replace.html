@@ -13,56 +13,48 @@
 {% block container %}
 <div class="container">
 
-    {% comment %}
-    <div class="row justify-content-between">
-        <div class="col-4 p-3 align-self-start border rounded-5 shadow mb-3" style="background-color: #d5d5d5;">
-            {% show_template_bar path %}
-        </div>
-        {% endcomment %}
+    {% if title %}
+    <div class="p-3 border rounded-5 shadow mb-3" style="background-color: #d5d5d5;">
+        <h3>{{title}}</h3>
+    </div>
+    {% endif %}
 
-        {% if pk %}
-        {% if form_list %}
+    {% if pk %}
+    {% if form_list %}
 
-        {% comment %}
-        <div class="col-7 p-3 border rounded-5 shadow mb-3" style="background-color: #d5d5d5;">
-            {% endcomment %}
-            <div class="p-3 border rounded-5 shadow mb-3" style="background-color: #d5d5d5;">
-                <h3>Создание документа</h3>
-                <form action="{% url 'create_document' pk %}" method="POST" enctype="multipart/form-data">
-                    {% for form in form_list %}
-                    {% csrf_token %}
-                    {% forindex field_list forloop.counter0 as field %}
-                    <div class="card mb-3 shadow rounded-5">
-                        <div class="card-body">
-                            <h4 class="card-title">Поле: {{field.title}}</h5>
-                                <p class="card-text">{{ form.replace_value }}</p>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">Тэг: {{field.tag}}</small>
-                        </div>
-                    </div>
-                    {% endfor %}
-                    <div class="border rounded-5 shadow p-3 bg-light">
-                        {{doc_name_form.as_p}}
-                        <button type="submit" class="btn btn-outline-primary shadow form-control rounded-5">
-                            <lord-icon src="{% static 'icons/document.json' %}" trigger="hover"
-                                style="width:32px;height:32px">
-                            </lord-icon>
-                            Создать документ
-                        </button>
-                    </div>
-                </form>
-                {% else %}
-
-                {% comment %}
-                <div class="col-md-7 p-3 border rounded-5 shadow" style="background-color: #d5d5d5;">
-                    {% endcomment %}
-                    <div class="p-3 border rounded-5 shadow mb-3" style="background-color: #d5d5d5;">
-                        <h5 class="card-title">Поля для замены не созданы</h5>
-                    </div>
-                    {% endif %}
-                    {% endif %}
+    <div class="p-3 border rounded-5 shadow mb-3" style="background-color: #d5d5d5;">
+        <h3>Создание документа</h3>
+        <form action="{% url 'create_document' pk %}" method="POST" enctype="multipart/form-data">
+            {% for form in form_list %}
+            {% csrf_token %}
+            {% forindex field_list forloop.counter0 as field %}
+            <div class="card mb-3 shadow rounded-5">
+                <div class="card-body">
+                    <h4 class="card-title">Поле: {{field.title}}</h5>
+                        <p class="card-text">{{ form.replace_value }}</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Тэг: {{field.tag}}</small>
                 </div>
             </div>
+            {% endfor %}
+            <div class="border rounded-5 shadow p-3 bg-light">
+                {{doc_name_form.as_p}}
+                <button type="submit" class="btn btn-outline-primary shadow form-control rounded-5">
+                    <lord-icon src="{% static 'icons/document.json' %}" trigger="hover" style="width:32px;height:32px">
+                    </lord-icon>
+                    Создать документ
+                </button>
+            </div>
+        </form>
+        {% else %}
+
+        <div class="p-3 border rounded-5 shadow mb-3" style="background-color: #d5d5d5;">
+            <h5 class="card-title">Поля для замены не созданы</h5>
         </div>
-        {% endblock %}
+        {% endif %}
+        {% endif %}
+    </div>
+</div>
+</div>
+{% endblock %}

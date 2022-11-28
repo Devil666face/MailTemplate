@@ -9,36 +9,51 @@
     </button>
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
       <div class="offcanvas-header bg-dark shadow">
-        <h5 class="offcanvas-title text-light" id="offcanvasNavbarLabel">{{user|capfirst}}</h5>
+        <h5 class="offcanvas-title text-light" id="offcanvasNavbarLabel">{{user|capfirst}}
+        </h5>
+
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body" style="background-color: #6D7993;">
-        <ul class="navbar-nav justify-content-end flex-grow-1 p-3 rounded-5 shadow mb-3" style="background-color: #d5d5d5;">
-            <li class="nav-item">
-              <a class="nav-link shadow btn btn-light text-dark rounded-5" aria-current="page"
-                href="{% url 'admin:index'%}">
-                <lord-icon src="{% static 'icons/admin.json' %}" trigger="hover" style="width:32px;height:32px">
-                </lord-icon>
-                Администрирование</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link shadow btn btn-light mt-2 text-dark rounded-5" aria-current="page"
-                href="{% url 'template_list' %}">
-                <lord-icon src="{% static 'icons/templates.json' %}" trigger="hover" style="width:32px;height:32px">
-                </lord-icon>
-                Шаблоны</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link shadow btn btn-light mt-2 text-dark rounded-5" aria-current="page" href="{% url 'logout' %}">
-                <lord-icon src="{% static 'icons/logout.json' %}" trigger="hover" style="width:32px;height:32px">
-                </lord-icon>
-                Выйти</a>
-            </li>
+        <ul class="navbar-nav justify-content-end flex-grow-1 p-3 rounded-5 shadow mb-3"
+          style="background-color: #d5d5d5;">
+          <li class="nav-item">
+            <a class="nav-link shadow btn btn-light text-dark rounded-5" aria-current="page"
+              href="{% url 'template_list' %}">
+              <lord-icon src="{% static 'icons/templates.json' %}" trigger="hover" style="width:32px;height:32px">
+              </lord-icon>
+              Шаблоны
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link shadow btn btn-light mt-2 text-dark rounded-5" aria-current="page"
+              href="{% url 'admin:index'%}">
+              <lord-icon src="{% static 'icons/admin.json' %}" trigger="hover" style="width:32px;height:32px">
+              </lord-icon>
+              Администрирование
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link shadow btn btn-light mt-2 text-dark rounded-5" aria-current="page"
+              href="{% url 'password_change' %}">
+              <lord-icon src="{% static 'icons/password.json' %}" trigger="hover" style="width:32px;height:32px">
+              </lord-icon>
+              Сменить пароль
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link shadow btn btn-light mt-2 text-dark rounded-5" aria-current="page"
+              href="{% url 'logout' %}">
+              <lord-icon src="{% static 'icons/logout.json' %}" trigger="hover" style="width:32px;height:32px">
+              </lord-icon>
+              Выйти
+            </a>
+          </li>
         </ul>
 
         <ul class="navbar-nav justify-content-end flex-grow-1 p-3 rounded-5 shadow" style="background-color: #d5d5d5;">
           {% show_template_bar path user %}
-      </ul>
+        </ul>
       </div>
     </div>
   </div>

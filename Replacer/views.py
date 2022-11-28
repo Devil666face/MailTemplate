@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import DetailView, ListView, FormView, UpdateView, CreateView, DeleteView, RedirectView
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView, PasswordChangeDoneView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
@@ -11,15 +11,23 @@ from Replacer.DocUtils.docutils import DocUtils
 from config.settings import MEDIA_URL
 
 
-class UserLogout(LogoutView):
-    next_page = '/login/'
-
-
 class UserLogin(LoginView):
     authentication_form = UserLoginForm
     template_name = 'login.html'
     redirect_authenticated_user = True
     next_page = '/'
+
+
+class UserLogout(LogoutView):
+    next_page = '/login/'
+
+
+class PasswordChangeView(PasswordChangeView):
+    pass
+
+
+class PasswordChangeDoneView(PasswordChangeDoneView):
+    template_name = 'Replacer/template_replace.html'
 
 
 class TemplateDetailView(LoginRequiredMixin, DetailView):
