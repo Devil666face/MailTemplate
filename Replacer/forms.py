@@ -28,7 +28,7 @@ class TemplateBaseForm(BootstrapForm):
 class FieldsBaseForm(BootstrapForm):
     class Meta:
         model = ReplaceField
-        fields = '__all__'
+        fields = ('title','replace_value','tag','template')
         widgets = {
             'template':forms.Select(attrs = {"class":"form-control", "style":"display: none;"},),    
         }

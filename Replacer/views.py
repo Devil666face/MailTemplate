@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import DetailView, ListView, FormView, UpdateView, CreateView, DeleteView, RedirectView
 from django.contrib.auth.views import LoginView, LogoutView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import redirect
@@ -67,6 +67,7 @@ class CreateDocumentViewRedirect(LoginRequiredMixin, RedirectView):
         doc_url = f"{request.META.get('HTTP_ORIGIN')}{doc_path}"
         return redirect(doc_url)
 
+
 class OwnerFormMixin(CreateView):
 
     def form_valid(self, form) -> HttpResponse:
@@ -74,6 +75,15 @@ class OwnerFormMixin(CreateView):
         self.object.owner = self.request.user
         self.object.save()
         return super().form_valid(form)
+
+
+class OwnerGetPageMixin(LoginRequiredMixin, FormView):
+
+    def get_queryset(self):
+        queryset = super().get_queryset().filter(owner=self.request.user)
+        print(queryset)
+        return queryset
+
 
 class TemplateBaseView:
     model = Template
@@ -96,7 +106,11 @@ class TemplateListView(TemplateBaseView, LoginRequiredMixin, ListView):
         return queryset.filter(owner=self.request.user)
 
 
-class TemplateUpdateView(LoginRequiredMixin, TemplateBaseView, UpdateView):
+class TemplateCreateView(LoginRequiredMixin, TemplateBaseView, OwnerFormMixin):
+    form_class = TemplateBaseForm
+
+
+class TemplateUpdateView(TemplateBaseView, UpdateView, OwnerGetPageMixin):
     form_class = TemplateBaseForm
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -107,11 +121,7 @@ class TemplateUpdateView(LoginRequiredMixin, TemplateBaseView, UpdateView):
         return context
 
 
-class TemplateCreateView(LoginRequiredMixin, TemplateBaseView, OwnerFormMixin):
-    form_class = TemplateBaseForm
-
-
-class TemplateDeleteView(LoginRequiredMixin, TemplateBaseView, DeleteView):
+class TemplateDeleteView(TemplateBaseView, DeleteView, OwnerGetPageMixin):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -154,14 +164,14 @@ class FieldsBaseView(FormView):
         return reverse_lazy('fields_list', kwargs={'pk': self.template_pk})
 
 
-class FieldsForTemplateCreateView(LoginRequiredMixin, FieldsBaseView, CreateView):
+class FieldsForTemplateCreateView(LoginRequiredMixin, FieldsBaseView, OwnerFormMixin):
     form_class = FieldsBaseForm
 
     def get_success_url(self) -> str:
         return reverse_lazy('fields_list', kwargs={'pk': self.get_template_pk()})
 
 
-class FieldsForTemplateUpdateView(LoginRequiredMixin, FieldsBaseView, UpdateView):
+class FieldsForTemplateUpdateView(FieldsBaseView, UpdateView, OwnerGetPageMixin):
     form_class = FieldsBaseForm
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -178,7 +188,7 @@ class FieldsForTemplateUpdateView(LoginRequiredMixin, FieldsBaseView, UpdateView
         return super().post(request, *args, **kwargs)
 
 
-class FieldsForTemplateDeleteView(LoginRequiredMixin, FieldsBaseView, DeleteView):
+class FieldsForTemplateDeleteView(FieldsBaseView, DeleteView, OwnerGetPageMixin):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
