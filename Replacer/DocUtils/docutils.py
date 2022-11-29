@@ -25,7 +25,7 @@ class DocUtils:
         for index, field in enumerate(field_list):
             context[field.tag] = insert_fields_list[index]
 
-        context = {**context, **self.make_customer_dict(customer)}
+        context = {**self.make_customer_dict(customer), **context}
         return context
 
     def get_path_to_save(self):
