@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import redirect
-from Replacer.models import Template, ReplaceField
+from Replacer.models import Template, ReplaceField, Customer
 from Replacer.forms import *
 from Replacer.DocUtils.docutils import DocUtils
 from config.settings import MEDIA_URL
@@ -46,6 +46,7 @@ class TemplateDetailView(LoginRequiredMixin, DetailView):
         context['field_list'] = ReplaceField.objects.filter(
             template_id=self.pk)
         context['doc_name_form'] = DocNameForm()
+        context['customer_form'] = CustomerForm()
         return context
 
     def get(self, request, *args, **kwargs):
@@ -66,12 +67,16 @@ class CreateDocumentViewRedirect(LoginRequiredMixin, RedirectView):
     def post(self, request, *args, **kwargs):
         self.template_pk = kwargs.get('pk')
         print(request.POST)
+        
         template = Template.objects.get(pk=self.template_pk)
         field_list = ReplaceField.objects.filter(template=template)
         insert_fields_list = request.POST.getlist('replace_value')
         doc_name = request.POST.get('doc_name')
+        customer = Customer.objects.get(pk=request.POST.get('customer'))
+
         doc_path = DocUtils(template=template, field_list=field_list,
-                            insert_fields_list=insert_fields_list, doc_name=doc_name).make_document()
+                            insert_fields_list=insert_fields_list, doc_name=doc_name,
+                            customer=customer).make_document()
         doc_url = f"{request.META.get('HTTP_ORIGIN')}{doc_path}"
         return redirect(doc_url)
 

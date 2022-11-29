@@ -38,7 +38,17 @@
                 </div>
             </div>
             {% endfor %}
+            <div class="card mb-3 shadow rounded-5">
+                <div class="card-body">
+                    <p class="card-text">{{customer_form.as_p}}</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Тэги: customer - заказчик, customer_abb - сокращенное название
+                        заказчика</small>
+                </div>
+            </div>
             <div class="border rounded-5 shadow p-3 bg-light">
+
                 {{doc_name_form.as_p}}
                 <button type="submit" class="btn btn-outline-primary shadow form-control rounded-5">
                     <lord-icon src="{% static 'icons/document.json' %}" trigger="hover" style="width:32px;height:32px">

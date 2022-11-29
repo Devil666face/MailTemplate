@@ -1,5 +1,5 @@
 from django import forms
-from .models import ReplaceField, Template
+from .models import ReplaceField, Template, Customer
 from django.contrib.auth.forms import AuthenticationForm
 
 
@@ -48,3 +48,11 @@ class ReplaceFieldFormUpdate(BootstrapForm):
 
 class DocNameForm(forms.Form):
     doc_name = forms.CharField(label='Имя документа', max_length=100, widget=forms.TextInput(attrs = {"class":"form-control"}))
+
+
+class CustomerForm(forms.Form):
+    # customer = forms.ModelMultipleChoiceField(label='Заказчик', queryset=Customer.objects.all(), widget=forms.Select(attrs = {"class":"form-control"}), empty_label=None)
+    # customer = forms.ModelChoiceField(label='Заказчик', queryset=Customer.objects.all(), widget=forms.Select(attrs = {"class":"form-control"}), empty_label='empty', required=False)
+    customer = forms.ModelChoiceField(label='Заказчик', queryset=Customer.objects.all(), widget=forms.Select(attrs = {"class":"form-control"}), empty_label=None)
+    
+    
