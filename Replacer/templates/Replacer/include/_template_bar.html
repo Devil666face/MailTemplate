@@ -11,7 +11,7 @@
                     href="{{template.get_absolute_url}}"><h6>{{template.title}}</h6></a></td>
             <td><a class="rounded-5 shadow btn {% if template.get_absolute_url == path %}btn-success{% else %}btn-outline-success{% endif %}"
                     href="{% url 'fields_list' template.pk %}">
-                    <lord-icon src="{% static 'icons/edit.json' %}" trigger="hover" style="width:32px;height:32px">
+                    <lord-icon src="{% static 'icons/edit.json' %}" trigger="hover" style="width:24px;height:24px">
                     </lord-icon>
                 </a>
             </td>
