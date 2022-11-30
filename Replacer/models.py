@@ -1,7 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
-from django.contrib.auth.models import AbstractUser
+# from django.contrib.auth.models import AbstractUser
 
 # class CustomUser(AbstractUser):
 #     phone = models.CharField(max_length=255, blank=True,verbose_name='Номер телефона')
@@ -54,3 +54,21 @@ class Customer(models.Model):
         verbose_name = 'Заказчик'
         verbose_name_plural = 'Заказчики'
         ordering = ['-pk']
+
+
+class Company(models.Model):
+    company_abb = models.CharField(max_length=255, blank=True, db_index=True, verbose_name='Компания сокращенно')
+    company_title = models.TextField(max_length=255, blank=True, verbose_name='Компания в шапке')
+    manager_name = models.CharField(max_length=255, blank=True, verbose_name='Инициалы и фамилия руководителя')
+    company_address = models.TextField(max_length=255, blank=True, verbose_name='Адресc')
+    manager_full_name = models.CharField(max_length=255, blank=True, verbose_name='Имя и отчество руководителя')
+    def __str__(self) -> str:
+        return self.company_abb
+
+    class Meta:
+
+        verbose_name = 'Компания'
+        verbose_name_plural = 'Компании'
+        ordering = ['company_abb']
+
+    

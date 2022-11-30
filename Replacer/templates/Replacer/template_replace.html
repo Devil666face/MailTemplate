@@ -38,6 +38,8 @@
                 </div>
             </div>
             {% endfor %}
+            
+            {% if customer_form %}
             <div class="card mb-3 shadow rounded-5">
                 <div class="card-body">
                     <p class="card-text">{{customer_form.as_p}}</p>
@@ -47,8 +49,27 @@
                         заказчика</small>
                 </div>
             </div>
-            <div class="border rounded-5 shadow p-3 bg-light">
+            {% endif %}
 
+			{% if company_form %}
+            <div class="card mb-3 shadow rounded-5">
+                <div class="card-body">
+                    <p class="card-text">{{company_form.as_p}}</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">
+                    	Тэги:<br>
+						company_abb - АО «Компания»<br>
+					    company_title - Генеральному директору акционерного общества «Компания»<br>
+					    manager_name - П.П.ПЕТРОВУ<br>
+					    company_address - адресc<br>
+					    manager_full_name - Петр Петрович
+                    </small>
+                </div>
+            </div>
+            {% endif %}
+            
+            <div class="border rounded-5 shadow p-3 bg-light">
                 {{doc_name_form.as_p}}
                 <button type="submit" class="btn btn-outline-primary shadow form-control rounded-5">
                     <lord-icon src="{% static 'icons/document.json' %}" trigger="hover" style="width:32px;height:32px">
