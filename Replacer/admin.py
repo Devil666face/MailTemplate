@@ -15,10 +15,16 @@ class ReplaceFieldAdmin(admin.ModelAdmin):
 
 class CustomerAdmin(admin.ModelAdmin):
     field = '__all__'
+    list_display = ('title','customer','customer_abb',)
+    search_fields = ('title',)
 
 
 class CompanyAdmin(admin.ModelAdmin):
     field = '__all__'
+    list_display = ('company_abb','company_title','manager_name','company_address','manager_full_name',)
+    #list_editable = ('company_title','manager_name','company_address','manager_full_name',)
+    search_fields = ('company_abb',)
+
 
 admin.site.register(Template, TemplateAdmin)
 admin.site.register(ReplaceField, ReplaceFieldAdmin)
