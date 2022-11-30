@@ -42,7 +42,7 @@ class ReplaceFieldFormUpdate(BootstrapForm):
         model = ReplaceField
         fields = ['id', 'title', 'replace_value', 'tag']
         widgets = {
-            'replace_value':forms.Textarea(attrs = {"rows":"5",},),
+            'replace_value':forms.Textarea(attrs = {"rows":"4",},),
         }
 
 
