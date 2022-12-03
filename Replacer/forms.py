@@ -2,7 +2,6 @@ from django import forms
 from .models import ReplaceField, Template, Customer, Company
 from django.contrib.auth.forms import AuthenticationForm
 
-
 class UserLoginForm(AuthenticationForm):
     username = forms.CharField(label='', widget=forms.TextInput(attrs={
         "class": "form-control",
@@ -58,4 +57,10 @@ class CustomerForm(forms.Form):
 class CompanyForm(forms.Form):
     company = forms.ModelChoiceField(label='Компания', queryset=Company.objects.all(), widget=forms.Select(attrs = {"class":"form-control"}), empty_label=None)
 
+
+class ServiceForm(forms.Form):
+    month = forms.CharField(label='Месяц', max_length=100, widget=forms.TextInput(attrs = {"class":"form-control"}))
+    enter_date = forms.CharField(label='Входящая дата', max_length=100, widget=forms.TextInput(attrs = {"class":"form-control"})) 
+    enter_num_org = forms.CharField(label='Входящий номер организации', required=False, max_length=100, widget=forms.TextInput(attrs = {"class":"form-control"}))
+    date = forms.CharField(label='Дата печати письма', max_length=100, widget=forms.TextInput(attrs = {"class":"form-control"}))
     

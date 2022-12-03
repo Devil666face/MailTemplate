@@ -68,6 +68,23 @@
                 </div>
             </div>
             {% endif %}
+
+            {% if service_form %}
+            <div class="card mb-3 shadow rounded-5">
+                <div class="card-body">
+                    <p class="card-text">{{service_form.as_p}}</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">
+                    	Тэги:<br>
+					    month - Месяц<br>
+					    enter_date - Входящая дата<br>
+					    enter_num_org - Входящий номер организации<br>
+					    date - Дата печати письма
+                    </small>
+                </div>
+            </div>
+            {% endif %}
             
             <div class="border rounded-5 shadow p-3 bg-light">
                 {{doc_name_form.as_p}}
@@ -81,7 +98,25 @@
         {% else %}
 
         <div class="p-3 border rounded-5 shadow mb-3" style="background-color: #d5d5d5;">
-            <h5 class="card-title">Поля для замены не созданы</h5>
+            <h5 class="card-title mb-3">Поля для замены не созданы</h5>
+            <div class="card mb-3 shadow rounded-5">
+            <div class="card-body">
+             <small class="text-muted">
+             	Зарезервированные теги:<br>
+             	customer - заказчик<br>
+             	customer_abb - сокращенное название заказчика<br>
+             	company_abb - АО «Компания»<br>
+			    company_title - Генеральному директору акционерного общества «Компания»<br>
+			    manager_name - П.П.ПЕТРОВУ<br>
+			    company_address - адресc<br>
+				manager_full_name - Петр Петрович<br>
+				month - Месяц<br>
+				enter_date - Входящая дата<br>
+				enter_num_org - Входящий номер организации<br>
+				date - Дата печати письма<br>
+             </small>
+             </div>
+             </div>
         </div>
         {% endif %}
         {% endif %}

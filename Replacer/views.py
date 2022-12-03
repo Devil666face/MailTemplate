@@ -8,6 +8,7 @@ from django.shortcuts import redirect
 from Replacer.models import Template, ReplaceField, Customer, Company
 from Replacer.forms import *
 from Replacer.DocUtils.docutils import DocUtils
+from Replacer.utils import *
 from config.settings import MEDIA_URL
 
 
@@ -48,6 +49,15 @@ class TemplateDetailView(LoginRequiredMixin, DetailView):
         context['doc_name_form'] = DocNameForm()
         context['customer_form'] = CustomerForm()
         context['company_form'] = CompanyForm()
+
+        default_data = {
+            'month':get_now_month(),
+            'enter_date':get_enter_date(),
+            'enter_num_org':' ',
+            'date':get_now_date(),
+        }
+        
+        context['service_form'] = ServiceForm(default_data)
         return context
 
     def get(self, request, *args, **kwargs):
@@ -75,10 +85,16 @@ class CreateDocumentViewRedirect(LoginRequiredMixin, RedirectView):
         doc_name = request.POST.get('doc_name')
         customer = Customer.objects.get(pk=request.POST.get('customer'))
         company = Company.objects.get(pk=request.POST.get('company'))
-
+        service = {
+            'month':request.POST.get('month'),
+            'enter_date':request.POST.get('enter_date'),
+            'enter_num_org':request.POST.get('enter_num_org'),
+            'date':request.POST.get('date'),
+        }
+        #print(service)
         doc_path = DocUtils(template=template, field_list=field_list,
                             insert_fields_list=insert_fields_list, doc_name=doc_name,
-                            customer=customer, company=company).make_document()
+                            customer=customer, company=company, service=service).make_document()
         doc_url = f"{request.META.get('HTTP_ORIGIN')}{doc_path}"
         return redirect(doc_url)
 
