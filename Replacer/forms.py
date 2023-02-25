@@ -1,5 +1,5 @@
 from django import forms
-from .models import ReplaceField, Template, Customer, Company
+from .models import ReplaceField, Template, Customer, Company, Sign
 from django.contrib.auth.forms import AuthenticationForm
 
 class UserLoginForm(AuthenticationForm):
@@ -64,3 +64,5 @@ class ServiceForm(forms.Form):
     enter_num_org = forms.CharField(label='Входящий номер организации', required=False, max_length=100, widget=forms.TextInput(attrs = {"class":"form-control"}))
     date = forms.CharField(label='Дата печати письма', max_length=100, widget=forms.TextInput(attrs = {"class":"form-control"}))
     
+class SignForm(forms.Form):
+    sign = forms.ModelChoiceField(label='Подпись', queryset=Sign.objects.all(), widget=forms.Select(attrs = {"class":"form-control"}), empty_label=None)

@@ -69,6 +69,19 @@
             </div>
             {% endif %}
 
+			{% if sign_form %}
+            <div class="card mb-3 shadow rounded-5">
+                <div class="card-body">
+                    <p class="card-text">{{sign_form.as_p}}</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">
+                    	Тэги: sign_title - должность, sign - инициал фамилия
+                    </small>
+                </div>
+            </div>
+            {% endif %}
+
             {% if service_form %}
             <div class="card mb-3 shadow rounded-5">
                 <div class="card-body">
@@ -114,6 +127,8 @@
 				enter_date - Входящая дата<br>
 				enter_num_org - Входящий номер организации<br>
 				date - Дата печати письма<br>
+			    sign_title - Должность<br>
+			    sign - Инициал Фамилия<br>
              </small>
              </div>
              </div>

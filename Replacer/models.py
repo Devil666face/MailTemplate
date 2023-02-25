@@ -62,13 +62,25 @@ class Company(models.Model):
     manager_name = models.CharField(max_length=255, blank=True, verbose_name='Инициалы и фамилия руководителя')
     company_address = models.TextField(max_length=255, blank=True, verbose_name='Адресc')
     manager_full_name = models.CharField(max_length=255, blank=True, verbose_name='Имя и отчество руководителя')
+
     def __str__(self) -> str:
         return self.company_abb
 
     class Meta:
-
         verbose_name = 'Компания'
         verbose_name_plural = 'Компании'
         ordering = ['company_abb']
 
     
+class Sign(models.Model):
+    title = models.CharField(max_length=255, blank=True, db_index=True, verbose_name='Подпись')
+    sign_title = models.TextField(max_length=255, blank=True, verbose_name='Должность')
+    sign = models.CharField(max_length=255, blank=True, db_index=True, verbose_name='Инициал Фамилия')
+
+    def __str__(self) -> str:
+        return self.title
+
+    class Meta:
+        verbose_name = 'Подпись'
+        verbose_name_plural = 'Подписи'
+        ordering = ['title']

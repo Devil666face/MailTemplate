@@ -4,16 +4,23 @@ from datetime import datetime
 from Replacer.models import Template, ReplaceField
 
 class DocUtils:
-    def __init__(self, template, field_list, insert_fields_list, doc_name, customer, company, service) -> None:
+    def __init__(self, template, field_list, insert_fields_list, doc_name, customer, company, service, sign) -> None:
         self.template = template
         self.field_list = field_list
         self.insert_fields_list = insert_fields_list
         self.customer = customer
         self.company = company
         self.service = service
-        self.context = self.make_context_dict(self.field_list, self.insert_fields_list, self.customer, self.company, self.service)
+        self.sign = sign
+        self.context = self.make_context_dict(self.field_list, self.insert_fields_list, self.customer, self.company, self.service, self.sign)
         self.doxc_template_path = f'media/{self.template.file}'
         self.doc_name = doc_name
+
+    def make_sign(self, sign):
+        context = {}
+        context['sign_title'] = sign.sign_title
+        context['sign'] = sign.sign
+        return context
         
     def make_company_dict(self, company):
         context = {}
@@ -30,12 +37,12 @@ class DocUtils:
         context['customer_abb'] = customer.customer_abb
         return context
 
-    def make_context_dict(self, field_list, insert_fields_list, customer, company, service):
+    def make_context_dict(self, field_list, insert_fields_list, customer, company, service, sign):
         context = {}
         for index, field in enumerate(field_list):
             context[field.tag] = insert_fields_list[index]
 
-        context = {**self.make_customer_dict(customer), **self.make_company_dict(company), **service, **context}
+        context = {**self.make_customer_dict(customer), **self.make_company_dict(company), **self.make_sign(sign), **service, **context}
         return context
 
     def get_path_to_save(self):
